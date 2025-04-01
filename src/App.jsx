@@ -45,7 +45,7 @@ function App() {
 
       {/* Main Weather Card and Forecast */}
       {weather.temp !== undefined && (
-        <main className="w-full flex flex-wrap gap-8 py-4 px-[10%] items-center justify-center">
+        <main className="w-full flex flex-col gap-8 py-4 px-[10%] items-center justify-center">
           {/* Main Weather Card */}
           <WeatherCard
             place={thisLocation}
@@ -57,8 +57,8 @@ function App() {
             conditions={weather.conditions}
           />
 
-          {/* 6-Day Forecast Cards */}
-          <div className="flex justify-center gap-8 flex-wrap w-[60%]">
+          {/* 6-Day Forecast Cards in 2x3 Grid */}
+          <div className="grid grid-cols-3 gap-8 w-full max-w-4xl">
             {values?.slice(1, 7).map((curr) => (
               <MiniCard
                 key={curr.datetime}
