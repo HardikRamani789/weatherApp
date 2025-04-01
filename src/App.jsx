@@ -20,7 +20,7 @@ function App() {
   };
 
   return (
-    <div className="w-full h-screen text-white px-8 overflow-hidden">
+    <div className="w-full min-h-screen text-white px-8">
       {/* Search Bar */}
       <nav className="flex w-full justify-between items-center p-3">
         <h1 className="backdrop-blur-xs p-1 text-2xl font-bold text-white border-0">
@@ -45,7 +45,7 @@ function App() {
 
       {/* Main Weather Card and Forecast */}
       {weather.temp !== undefined && (
-        <main className="w-full flex flex-wrap gap-8 py-4 px-[10%] items-center justify-center h-[calc(100vh-5rem)] overflow-hidden">
+        <main className="w-full flex flex-wrap gap-8 py-4 px-[10%] items-center justify-center">
           {/* Main Weather Card */}
           <WeatherCard
             place={thisLocation}
@@ -58,7 +58,7 @@ function App() {
           />
 
           {/* 6-Day Forecast Cards */}
-          <div className="flex justify-center gap-8 flex-wrap w-[60%] overflow-hidden">
+          <div className="flex justify-center gap-8 flex-wrap w-[60%]">
             {values?.slice(1, 7).map((curr) => (
               <MiniCard
                 key={curr.datetime}
