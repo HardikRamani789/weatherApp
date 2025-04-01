@@ -5,12 +5,13 @@ import axios from "axios";
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
+  // Weather data states
   const [weather, setWeather] = useState({});
   const [values, setValues] = useState([]);
   const [place, setPlace] = useState("Rajkot");
   const [thisLocation, setLocation] = useState("");
 
-  // fetch api
+  // Fetch weather data from API
   const fetchWeather = async () => {
     const options = {
       method: "GET",
@@ -21,6 +22,7 @@ export const StateContextProvider = ({ children }) => {
         contentType: "json",
         unitGroup: "metric",
         shortColumnNames: 0,
+        forecastDays: 7
       },
       headers: {
         "X-RapidAPI-Key": import.meta.env.VITE_API_KEY,
@@ -29,26 +31,24 @@ export const StateContextProvider = ({ children }) => {
     };
 
     try {
+      // Get weather data
       const response = await axios.request(options);
-      console.log(response.data);
       const thisData = Object.values(response.data.locations)[0];
+      
+      // Update location and weather data
       setLocation(thisData.address);
       setValues(thisData.values);
       setWeather(thisData.values[0]);
     } catch (e) {
       console.error(e);
-      // if the api throws error.
       alert("This place does not exist");
     }
   };
 
+  // Fetch weather when place changes
   useEffect(() => {
     fetchWeather();
   }, [place]);
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
 
   return (
     <StateContext.Provider
@@ -64,6 +64,7 @@ export const StateContextProvider = ({ children }) => {
     </StateContext.Provider>
   );
 };
+
 StateContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

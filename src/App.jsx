@@ -5,23 +5,27 @@ import { useStateContext } from "./Context";
 import { BackGroundLayout, WeatherCard, MiniCard } from "./components";
 
 function App() {
-  const [input, setInput] = useState(""); // Local state for input field
+  // Search input state
+  const [input, setInput] = useState("");
+  
+  // Get weather data from context
   const { weather, thisLocation, values, place, setPlace } = useStateContext();
 
+  // Handle city search
   const handleSearch = () => {
     if (input.trim()) {
-      setPlace(input); // Update context with input value
-      setInput(""); // Clear input after pressing enter
+      setPlace(input);
+      setInput("");
     }
   };
 
-  console.log(weather);
-
   return (
     <div className="w-full h-screen text-white px-8">
-      {/* Navbar with logo and search bar */}
+      {/* Search Bar */}
       <nav className="flex w-full justify-between items-center p-3">
-        <h1 className="backdrop-blur-xs p-1 text-2xl font-bold text-white border-0 ">Weather App</h1>
+        <h1 className="backdrop-blur-xs p-1 text-2xl font-bold text-white border-0">
+          Weather App
+        </h1>
 
         <div className="w-[15rem] overflow-hidden shadow-2xl rounded p-2 flex items-center gap-2 bg-white">
           <img src={search} alt="search" className="w-[1.5rem] h-[1.5rem]" />
@@ -31,21 +35,18 @@ function App() {
             placeholder="Enter a city..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
-            }}
+            onKeyUp={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
       </nav>
 
-      {/* Background image based on weather conditions */}
+      {/* Weather Display */}
       <BackGroundLayout />
 
-      {/* Main weather forecast section */}
-      {weather.temp !== undefined && ( // Render only after fetching weather
+      {/* Main Weather Card and Forecast */}
+      {weather.temp !== undefined && (
         <main className="w-full flex flex-wrap gap-8 py-4 px-[10%] items-center justify-center">
+          {/* Main Weather Card */}
           <WeatherCard
             place={thisLocation}
             windspeed={weather.wspd}
@@ -56,6 +57,7 @@ function App() {
             conditions={weather.conditions}
           />
 
+          {/* 6-Day Forecast Cards */}
           <div className="flex justify-center gap-8 flex-wrap w-[60%]">
             {values?.slice(1, 7).map((curr) => (
               <MiniCard
